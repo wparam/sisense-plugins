@@ -4,6 +4,20 @@ function updateFilter(dash){
     dash.filters.update(filters, { refresh: true, save: true });
 }
 
+function getLocalFilters(filters){
+    if(!filters || filters.length === 0){
+        return [];
+    }
+    return filters.filter(item=>item.jaql.title && item.jaql.title.toLowerCase().endsWith('_local'));
+}
+
+function getGlobalFilters(filters){
+    if(!filters || filters.length === 0){
+        return [];
+    }
+    return filters.filter(item=>item.jaql.title && item.jaql.title.toLowerCase().endsWith('_global'));
+}
+
 
 prism.on('dashboardloaded', (event, args) => {
     const dashboard = args.dashboard;
@@ -20,7 +34,9 @@ prism.on('dashboardloaded', (event, args) => {
             hasFilterCleared = false;
             updateFilter(dash);
             return false;
+        
         }
+        console.log(dash.filters);
         if(!dash.filters || dash.filters.length === 0){
             console.error('filters is empty, and will be set to localStorage');
         }
