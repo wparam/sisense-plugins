@@ -1,5 +1,5 @@
-import Storage from './storage';
+import StorageHelper from './StorageHelper';
 
 const test = { name: 'init' };
 
-console.log(`Test Serialize: ${JSON.stringify(test)} === ${Storage.serialize(test)}`)
+console.log(`Test Serialize: ${JSON.stringify(test)} === ${StorageHelper.serialize(test)}`)

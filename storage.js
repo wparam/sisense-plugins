@@ -1,6 +1,6 @@
-const storage = window.localStorage; //todo expired?
+const StorageHelper = window.localStorage; //todo expired?
 
-const Storage = {
+const StorageHelper = {
     filterKey: 'sticky-filters',
     serialize: function(item){
         return JSON.stringify(item);
@@ -9,41 +9,41 @@ const Storage = {
         return JSON.parse(item);
     },
     has: function(key){
-        let filters = Storage.getStoredFilters();
+        let filters = StorageHelper.getStoredFilters();
         if(!key || !filters){
             return false;
         }
         return Object.keys(filters).includes(key);
     },
     getStoredFilters: function(){
-        return Storage.deserialize(storage.getItem(Storage.filterKey));
+        return StorageHelper.deserialize(StorageHelper.getItem(StorageHelper.filterKey));
     },
     resetFilter: function(filters){
-        storage.setItem(Storage.filterKey, Storage.serialize(filters));
+        StorageHelper.setItem(StorageHelper.filterKey, StorageHelper.serialize(filters));
     },
     setItem: function(key, val){
         if(!key || !val){
             return;
         }
-        const filters = Storage.getStoredFilters();
-        storage.setItem(Storage.filterKey, 
-            Storage.serialize({...filters, [key]: val }));
+        const filters = StorageHelper.getStoredFilters();
+        StorageHelper.setItem(StorageHelper.filterKey, 
+            StorageHelper.serialize({...filters, [key]: val }));
     },
     getItem: function(key){
         if(!key){
             return null;
         }
-        const filters  = Storage.getStoredFilters();
+        const filters  = StorageHelper.getStoredFilters();
         return filters[key];
     },
     removeItem: function(key){
-        const filters  = Storage.getStoredFilters();
+        const filters  = StorageHelper.getStoredFilters();
         if(!key || !filters){
             return;
         }
         delete filters[key];
-        Storage.resetFilter(filters);
+        StorageHelper.resetFilter(filters);
     }
 };
 
-module.exports = Storage;
+module.exports = StorageHelper;

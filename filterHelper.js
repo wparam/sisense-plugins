@@ -24,6 +24,17 @@ const FilterHelper = {
         }
         return !filter.jaql.title.toLowerCase().endsWith('_local');
     },
+    getPreFilterState: function(preFilters, curFilters){
+        if(!preFilters || preFilters.length === 0 || !curFilters || 
+            curFilters.length === 0){
+            return '';
+        }
+        const preFilter = preFilters.filter(pre=>!curFilters.find(cur=>cur.jaql.title===pre.jaql.getPreFilterName));
+        if(!preFilter){
+            return '';
+        }
+        return preFilter;
+    },
     getLocalFilters: function(filters){
         if(!filters || filters.length === 0){
             return [];
@@ -36,13 +47,15 @@ const FilterHelper = {
         }
         return filters.filter(item=>item.jaql.title && !item.jaql.title.toLowerCase().endsWith('_local')); //default be global ones
     },
-    removeHandler: function(dash, args){
-        if(args.items.length > 1){
-            throw new Error('Try to remove many filters at same time');
+    removeHandler: function(filter){
+        if(!filter){
+            throw new Error('Fail to remove filter');
         }
-        Storage.removeItem(FilterHelper.getTitle(args.items[0]));   
+        StorageHelper.removeItem(FilterHelper.getTitle(filter));   
     },
-    updateHandler: function(dash, args){}
+    renameHandler: function(preFilters, curFilters){
+
+    }
 };
 
 module.exports = FilterHelper;
