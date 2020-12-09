@@ -1,3 +1,6 @@
+import FilterHelper from './filterHelper';
+import Storage from './storage';
+
 //todo, expired? set by orgid?
 function updateFilter(dash){
     let filters = JSON.parse(localStorage.getItem('filters'));
@@ -24,22 +27,16 @@ prism.on('dashboardloaded', (event, args) => {
     let hasDefaultFilters = false;
     let hasFilterCleared = false;
     dashboard.on('filterschanged', function (dash, args) {
-        if(hasDefaultFilters){
-            hasDefaultFilters = false;
-            hasFilterCleared = true;
-            dashboard.filters.clear();
-            return false;
-        }
-        if(hasFilterCleared){
-            hasFilterCleared = false;
-            updateFilter(dash);
-            return false;
-        
-        }
-        console.log(dash.filters);
-        if(!dash.filters || dash.filters.length === 0){
-            console.error('filters is empty, and will be set to localStorage');
-        }
+        args.items.forEach(function(filter, idx){
+            if(FilterHelper.isLocal(filter)){
+                return false;
+            }
+            if(FilterHelper.isGlobal(filter)){
+                Storage.setItem(FilterHelper.getTitle(filter), filter);
+            }
+        });
+        console.log(args);
+        console.log(dash.filters.$$items);
         localStorage.setItem('filters', JSON.stringify(dash.filters.$$items));
     });
 

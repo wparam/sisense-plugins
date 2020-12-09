@@ -1,0 +1,12 @@
+{
+    "version": "1.0.1",
+    "name": "StickyFilter",
+    "pluginInfraVersion": 2,
+    "isEnabled": true,
+    "source": [
+        "main.js"
+    ],
+    "style": [],
+    "folderName": "stickyFilter",
+    "lastUpdate": "2020-12-09T10:11:02.855Z"
+}
