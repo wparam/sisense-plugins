@@ -22,6 +22,18 @@ const FilterHelper = {
             return false;
         }
         return filter.jaql.title.toLowerCase().endsWith('_global');
+    },
+    getLocalFilters: function(filters){
+        if(!filters || filters.length === 0){
+            return [];
+        }
+        return filters.filter(item=>item.jaql.title && item.jaql.title.toLowerCase().endsWith('_local'));
+    },
+    getGlobalFilters: function(filters){
+        if(!filters || filters.length === 0){
+            return [];
+        }
+        return filters.filter(item=>item.jaql.title && item.jaql.title.toLowerCase().endsWith('_global'));
     }
 };
 
