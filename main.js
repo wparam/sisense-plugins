@@ -9,7 +9,21 @@ function updateFilter(dash){
 
 prism.on('dashboardloaded', (event, args) => {
     const dashboard = args.dashboard;
+    let hasDefaultFilters = false;
+    let hasFilterCleared = false;
     dashboard.on('filterschanged', function (dash, args) {
+        if(hasDefaultFilters){
+            hasDefaultFilters = false;
+            hasFilterCleared = true;
+            dashboard.filters.clear();
+            return false;
+        }
+        if(hasFilterCleared){
+            hasFilterCleared = false;
+            updateFilter(dash);
+            return false;
+        
+        }
         args.items.forEach(function(filter, idx){
             if(FilterHelper.isLocal(filter)){
                 return false;
