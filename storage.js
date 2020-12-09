@@ -18,6 +18,9 @@ const Storage = {
     getStoredFilters: function(){
         return Storage.deserialize(storage.getItem(Storage.filterKey));
     },
+    resetFilter: function(filters){
+        storage.setItem(Storage.filterKey, Storage.serialize(filters));
+    },
     setItem: function(key, val){
         if(!key || !val){
             return;
@@ -32,6 +35,14 @@ const Storage = {
         }
         const filters  = Storage.getStoredFilters();
         return filters[key];
+    },
+    removeItem: function(key){
+        const filters  = Storage.getStoredFilters();
+        if(!key || !filters){
+            return;
+        }
+        delete filters[key];
+        Storage.resetFilter(filters);
     }
 };
 
